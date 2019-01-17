@@ -1,0 +1,12 @@
+# Below is the simplest way of solving problem (T-SQL in SQL Server or MYSQL 8.0+)
+SELECT Score,DENSE_RANK() OVER (ORDER BY Score DESC) as Rank
+FROM Scores
+ORDER BY Score DESC
+
+##  IF RANK() does not work
+
+select b.score, (select count(*) 
+				from (select distinct score from scores) as a 
+				where a.score >= b.score) as rank
+			from (select distinct score from scores) as b
+			order by b.score desc
