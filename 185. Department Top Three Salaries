@@ -1,0 +1,7 @@
+/* Write your T-SQL query statement below */
+SELECT df.Department,df.Employee,df.Salary
+FROM
+(SELECT DENSE_RANK() OVER(PARTITION BY DepartmentID ORDER BY Salary DESC) as row#, e.Salary,e.ID,e.Name as Employee, d.Name as Department
+FROM Employee e, Department d
+WHERE e.DepartmentId = d.Id) df
+WHERE df.row#<4
