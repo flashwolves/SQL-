@@ -1,0 +1,12 @@
+# Write your MySQL query statement below
+SELECT w1.Id
+FROM Weather w1, Weather w2
+WHERE TO_DAYS(w1.RecordDate) =TO_DAYS(w2.RecordDate)  + 1
+AND w1.Temperature> w2.Temperature
+
+
+# DATEDIFF(w1.date, w2.date) = 1 also works
+# DATE_SUB(w1.RecordDate, INTERVAL 1 DAY) = w2.RecordDate
+
+# DATE_SUB is an important function to trace back history data 
+# e.g. DATE_SUB(NoW(), INTERVAL 30 DAY) Past 30 days
