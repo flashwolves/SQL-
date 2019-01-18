@@ -1,0 +1,26 @@
+# Write your MySQL query statement below
+SELECT total.Day, round(IFNULL(cancelled.cancelled_amount,0)/total.total,2) as 'Cancellation Rate'
+FROM
+(SELECT t.Request_at as Day, count(*) as total
+FROM Trips t, Users u
+WHERE t.Client_ID = u.Users_ID
+AND u.Role = 'client'
+AND u.Banned = 'No'
+AND t.Request_at BETWEEN '2013-10-01'
+AND '2013-10-03'
+GROUP BY t.Request_at) total
+LEFT JOIN
+(SELECT t.Request_at as Day, count(*) as cancelled_amount
+FROM Trips t, Users u
+WHERE t.Client_ID = u.Users_ID
+AND u.Role = 'client'
+AND u.Banned = 'No'
+AND t.Request_at BETWEEN '2013-10-01'
+AND '2013-10-03'
+AND t.Status <> 'completed'
+GROUP BY t.Request_at) cancelled
+ON total.day = cancelled.day
+
+
+## Some important point to note!!!
+# IFNULL(cancelled.cancelled_amount,0) for 0 cancellation day OR RETURN NULL for 10-02 maybe also need in the denominator in real situation
