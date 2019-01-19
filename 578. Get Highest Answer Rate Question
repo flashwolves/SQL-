@@ -1,0 +1,14 @@
+# Write your MySQL query statement below
+SELECT answer.question_id AS survey_log
+FROM
+(SELECT question_id, count(distinct uid) as answer_amount
+FROM survey_log 
+WHERE answer_id IS NOT NULL
+group by question_id) answer,
+(SELECT question_id,count(distinct uid) as total_amount
+FROM survey_log
+WHERE action = 'show' or action = 'answer'
+GROUP BY question_id) as total
+WHERE answer.question_id = total.question_id
+ORDER BY IFNULL(answer_amount/total_amount,0) desc
+LIMIT 1
