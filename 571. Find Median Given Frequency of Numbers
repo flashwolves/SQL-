@@ -1,0 +1,8 @@
+# Write your MySQL query statement below
+SELECT avg(n1.Number) as median
+FROM Numbers n1
+WHERE n1.Frequency >= abs((SELECT sum(n2.frequency) FROM Numbers n2 WHERE n1.Number>=n2.Number)-
+                       (SELECT sum(n2.frequency) FROM Numbers n2 WHERE n1.Number<=n2.Number)  )
+                       
+## an important algorithm to note
+# For the median number its Frequency should be no less than the subtraction of (the sum frequency of numbers which is higher) and(the sum frequency of numbers which is lower) 
