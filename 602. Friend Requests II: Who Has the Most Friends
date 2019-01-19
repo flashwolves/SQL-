@@ -1,0 +1,14 @@
+# Write your MySQL query statement below
+SELECT a.id, SUM(a.num) as num
+FROM
+(SELECT accepter_id as id,COUNT(requester_id) as num
+FROM request_accepted
+GROUP BY accepter_id
+UNION ALL
+SELECT requester_id as id,COUNT(accepter_id) as num
+FROM request_accepted
+GROUP BY requester_id) a
+GROUP BY a.id DESC
+ORDER BY SUM(a.num) DESC
+LIMIT 1
+
