@@ -1,0 +1,8 @@
+# Write your MySQL query statement below
+SELECT id as Id, 
+CASE 
+WHEN t1.id =  (SELECT t2.id FROM tree t2 where t2.p_id is null) 
+           THEN 'Root'
+           WHEN t1.id IN (SELECT t3.p_id FROM tree t3) THEN 'Inner'
+           ELSE 'Leaf' END AS Type
+           FROM tree t1
