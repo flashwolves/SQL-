@@ -1,0 +1,14 @@
+# Write your MySQL query statement below
+SELECT s1.name from salesperson s1
+WHERE s1.name
+NOT IN
+(SELECT s.name
+FROM salesperson s
+LEFT JOIN orders o
+ON o.sales_id = s.sales_id
+LEFT JOIN company c
+ON o.com_id = c.com_id
+WHERE c.name = 'RED'
+) 
+
+## NOT IN is really important when selecting multiple not equal to LOL
