@@ -1,0 +1,18 @@
+# Write your MySQL query statement below
+SELECT DISTINCT department.pay_month, department_id, 
+CASE WHEN department.amount/company.amount>1 THEN 'higher'
+     WHEN department.amount/company.amount=1 THEN 'same'
+     ELSE 'lower' END AS comparison
+FROM
+(SELECT date_format(s.pay_date, '%Y-%m') pay_month, 
+ e.department_id, avg(s.amount) as amount
+FROM salary s, employee as e
+WHERE s.employee_id = e.employee_id
+GROUP BY e.department_id, pay_month) department
+LEFT JOIN
+(SELECT date_format(pay_date, '%Y-%m') pay_month,AVG(amount) as amount
+FROM salary
+GROUP BY MONTH(pay_date) )company
+ON department.pay_month = company.pay_month
+
+## date_format function 
